@@ -39,6 +39,7 @@ exports.createBlogController = async (req, res) => {
         message: "Please Provide ALl Fields",
       });
     }
+    console.log("ji")
     const exisitingUser = await userModel.findById(user);
     //validaton
     if (!exisitingUser) {
@@ -48,7 +49,10 @@ exports.createBlogController = async (req, res) => {
       });
     }
 
+    console.log("ji")
+
     const newBlog = new blogModel({ title, description, image, user });
+    console.log("ji")
     const session = await mongoose.startSession();
     session.startTransaction();
     await newBlog.save({ session });

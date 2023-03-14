@@ -12,6 +12,7 @@ import { Box, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
+// import image from "../dp.jpeg"
 
 export default function BlogCard({
   title,
