@@ -1,5 +1,8 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
+
+
+
 //create user register user
 exports.registerController = async (req, res) => {
   try {
@@ -39,6 +42,9 @@ exports.registerController = async (req, res) => {
   }
 };
 
+
+
+
 // get all users
 exports.getAllUsers = async (req, res) => {
   try {
@@ -59,6 +65,8 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+
+
 //login
 exports.loginController = async (req, res) => {
   try {
@@ -71,6 +79,7 @@ exports.loginController = async (req, res) => {
       });
     }
     const user = await userModel.findOne({ email });
+    console.log(user)
     if (!user) {
       return res.status(200).send({
         success: false,

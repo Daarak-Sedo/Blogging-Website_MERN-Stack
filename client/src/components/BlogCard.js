@@ -14,18 +14,12 @@ import toast from "react-hot-toast";
 import axios from "axios";
 // import image from "../dp.jpeg"
 
-export default function BlogCard({
-  title,
-  description,
-  image,
-  username,
-  time,
-  id,
-  isUser,
-}) {
+
+
+export default function BlogCard({title,description,image,username,time,id,isUser,}) {   //Reciving Props
   const navigate = useNavigate();
   const handleEdit = () => {
-    navigate(`/blog-details/${id}`);
+    navigate(`/UpdateBlogs/${id}`);
   };
 
   const handleDelete = async () => {
@@ -33,7 +27,7 @@ export default function BlogCard({
       const { data } = await axios.delete(`/api/v1/blog/delete-blog/${id}`);
       if (data?.success) {
         alert("Blog Deleted");
-        window.location.reload();
+        window.location.reload();        // to - Reload Page - to get Cureent/left Blog
       }
     } catch (error) {
       console.log(error);
@@ -52,12 +46,13 @@ export default function BlogCard({
         },
       }}
     >
-      {isUser && (
+      {isUser && (                     //to Show Delete Optiom - When user in Login
         <Box display={"flex"}>
           <IconButton onClick={handleEdit} sx={{ marginLeft: "auto" }}>
             <ModeEditIcon color="info" />
           </IconButton>
-          <IconButton onClick={handleDelete}>
+          <IconButton onClick={handleDelete}>    
+                                   {/* ........................User can Delete his own Blog-  thats why we will Compare LocalStorage userId===Db user.id */}
             <DeleteIcon color="error" />
           </IconButton>
         </Box>

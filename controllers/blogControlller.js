@@ -6,18 +6,21 @@ const userModel = require("../models/userModel");
 exports.getAllBlogsController = async (req, res) => {
   try {
     const blogs = await blogModel.find({}).populate("user");
+
     if (!blogs) {
       return res.status(200).send({
         success: false,
         message: "No Blogs Found",
       });
-    }
+    }else{
     return res.status(200).send({
       success: true,
       BlogCount: blogs.length,
       message: "All Blogs lists",
       blogs,
     });
+  }
+
   } catch (error) {
     console.log(error);
     return res.status(500).send({
@@ -39,7 +42,7 @@ exports.createBlogController = async (req, res) => {
         message: "Please Provide ALl Fields",
       });
     }
-    console.log("ji")
+ 
     const exisitingUser = await userModel.findById(user);
     //validaton
     if (!exisitingUser) {
@@ -49,10 +52,8 @@ exports.createBlogController = async (req, res) => {
       });
     }
 
-    console.log("ji")
-
     const newBlog = new blogModel({ title, description, image, user });
-    console.log("ji")
+   
     const session = await mongoose.startSession();
     session.startTransaction();
     await newBlog.save({ session });
@@ -129,12 +130,13 @@ exports.getBlogByIdController = async (req, res) => {
 //Delete Blog
 exports.deleteBlogController = async (req, res) => {
   try {
-    const blog = await blogModel
+    const blog = await blogModel.findByIdAndDelete(req.params.id).populate("user");      //Bcz 1 user may have more then 1 Blog
       // .findOneAndDelete(req.params.id)
-      .findByIdAndDelete(req.params.id)
-      .populate("user");
-    await blog.user.blogs.pull(blog);
+     
+    await blog.user.blogs.pull(blog);      //Pull is used - to remove elements from an Array field in a document, while delete() is used to remove entire documents from a collection.
+    
     await blog.user.save();
+
     return res.status(200).send({
       success: true,
       message: "Blog Deleted!",
@@ -148,6 +150,7 @@ exports.deleteBlogController = async (req, res) => {
     });
   }
 };
+
 
 //GET USER BLOG
 exports.userBlogControlller = async (req, res) => {

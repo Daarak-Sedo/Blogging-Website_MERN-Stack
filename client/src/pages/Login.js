@@ -5,6 +5,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../redux/store";
 import toast from "react-hot-toast";
+
+
+
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,14 +32,20 @@ const Login = () => {
       const { data } = await axios.post("/api/v1/user/login", {
         email: inputs.email,
         password: inputs.password,
+      }, {
+        validateStatus: false
       });
-      if (data.success) {
+      // console.log(data)
+
+      if (data.success) {      //Promise Return
         localStorage.setItem("userId", data?.user._id);
         dispatch(authActions.login());
         toast.success("User login Successfully");
         navigate("/");
+      }else{
+        toast.error(data.message);
       }
-    } catch (error) {
+    } catch (error) {     
       console.log(error);
     }
   };

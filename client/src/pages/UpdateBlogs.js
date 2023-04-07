@@ -3,11 +3,16 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
-const BlogDetails = () => {
+
+
+
+const UpdateBlogs = () => {
   const [blog, setBlog] = useState({});
   const id = useParams().id;
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
+
+
   // get blog details
   const getBlogDetail = async () => {
     try {
@@ -28,6 +33,7 @@ const BlogDetails = () => {
   useEffect(() => {
     getBlogDetail();
   }, [id]);
+  
 
   // input change
   const handleChange = (e) => {
@@ -55,6 +61,9 @@ const BlogDetails = () => {
     }
   };
   console.log(blog);
+
+
+
   return (
     <v>
       <form onSubmit={handleSubmit}>
@@ -126,4 +135,4 @@ const BlogDetails = () => {
   );
 };
 
-export default BlogDetails;
+export default UpdateBlogs;
